@@ -9,8 +9,6 @@
 ** Last update Wed Dec 5 2012
 */
 
-#import <Foundation/Foundation.h>
-
 @interface DBKache : NSObject
 
 +(DBKache*)sharedDBKacheManager;
