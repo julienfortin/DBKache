@@ -1,10 +1,13 @@
-//
-//  DBKacheImage.m
-//  ClicClac
-//
-//  Created by MacMniLeankr on 29/11/12.
-//  Copyright (c) 2012 Leankr. All rights reserved.
-//
+/*
+** DBKache.h for DBKache
+**
+** Made by Julien Fortin
+** Login <julien.fortin@epitech.eu>
+** Copyright (c) 2012 Julien Fortin. All rights reserved.
+**
+** Started on  Wed Dec 5 2012
+** Last update Wed Dec 5 2012
+*/
 
 #import "DBKache.h"
 
@@ -68,7 +71,13 @@ static DBKache *sharedDBKacheManager = nil;
 
 -(NSURL*)getTargetURLFormId:(id)targetURL
 {
-    return [targetURL isKindOfClass:[NSString class]] ? [[NSURL alloc] initWithString:targetURL] : (NSURL*)targetURL;
+    if ([targetURL isKindOfClass:[NSURL class]])
+        return (NSURL*)targetURL;
+    else if ([targetURL isKindOfClass:[NSString class]])
+        return [[NSURL alloc] initWithString:targetURL];
+    else if ([targetURL isKindOfClass:[NSData class]])
+        return [[NSURL alloc] initWithString:[[NSString alloc] initWithData:targetURL encoding:NSUTF8StringEncoding]];
+    return nil;
 }
 
 -(NSData*)getTargetFromURL:(NSURL*)URL
@@ -183,8 +192,11 @@ static DBKache *sharedDBKacheManager = nil;
 
 -(void)eraseKache
 {
-    _kache = nil;
-    _queue = nil;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
+    ^{
+        _kache = nil;
+        _queue = nil;
+    });
 }
 
 -(void)removeObjFromKacheForKey:(id)key
@@ -193,6 +205,16 @@ static DBKache *sharedDBKacheManager = nil;
         return;
     [self removeFromKacheForKey:key];
     [self removeFromQueueForKey:key];
+}
+
+-(void)setNewKey:(id)nKey ForKey:(id)key
+{
+    id obj = [self objIsInKache:key];
+    if (obj)
+    {
+        [self removeObjFromKacheForKey:key];
+        [self kacheObject:obj ForKey:nKey];
+    }
 }
 
 //////////////////////////////////////////

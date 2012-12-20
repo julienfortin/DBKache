@@ -113,4 +113,8 @@ All DBKache's source code is free to use, free to share, free to modify for any 
 
 Please forgive my english.
 
+<<<<<<< HEAD
 If you have any suggestions and comments please feel free to email me at: julien.fortin@epitech.eu or via my personal website http://www.fever42.net/
+=======
+If you have any suggestions and comments please feel free to email me at: julien.fortin@epitech.eu or via my personal website http://www.fever42.net/
+>>>>>>> 0b919b21aa5acf2582c168d511f6b6e2f101ae5f
